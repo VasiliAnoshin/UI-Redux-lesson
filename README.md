@@ -9,4 +9,9 @@ This repo is a code-along project for the React & Redux Course of the [React Nan
 3. Install the dependencies - `npm install`
 4. Start the app - `npm start`
 
+<h4>Lesson Challenge #1 </h4>
+Read these articles: https://blog.pusher.com/the-what-and-why-of-redux/ and https://css-tricks.com/learning-react-redux/. Answer the following questions (in your own words) and share your answers with your classmates:
+
+1) What are the advantages of using Redux?</br>
+2) Describe the 3 principles Redux follows.
 

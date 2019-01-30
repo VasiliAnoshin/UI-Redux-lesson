@@ -37,3 +37,33 @@ Articles: https://blog.pusher.com/the-what-and-why-of-redux/ and https://css-tri
 </code></pre>
 </code>
 </pre>
+<h5>State is read-only:</h5> The state cannot be changed directly by the view or any other process (maybe as a result of network callback or some other event). In order to change the state, you must express your intent by emitting an action. An action is a plain object describing your intent, and it contains a type property and some other data. Actions can be logged and later replayed which makes it good for debugging and testing purpose. Following our shopping cart example, we can fire an action as follows:
+<pre>
+<code class=" language-javascript">    store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> <span class="token string">'New_CART_ITEM'</span><span class="token punctuation">,</span>
+      payload<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                   <span class="token string">"productName"</span> <span class="token punctuation">:</span> <span class="token string">"Samsung S4"</span><span class="token punctuation">,</span>
+                   <span class="token string">"quantity"</span> <span class="token punctuation">:</span> <span class="token number">2</span>
+                <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span> emits the action<span class="token punctuation">,</span> and is the only way to trigger a state change<span class="token punctuation">.</span> To retrieve the state tree<span class="token punctuation">,</span> you call store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+</code>
+</pre>
+<h5>Reducer: </h5> The reducers are responsible for figuring out what state changes need to happen and then transforming it to reflect the new changes. Reducer is a pure function that takes in the previous (the current state about to be changed) and an action, determine how to update the state based on the action type, transforms it and returns the next state (the updated state). Continuing with our shopping cart example, let us say we want to add a new item to the cart. We dispatch an action of type NEW_CART_ITEM and, within the reducer, we determine how to process this new change request by reading through the action type and acting accordingly. For the shopping cart, it’ll be adding a new product to the cart:
+<pre>
+<code class=" language-javascript">    <span class="token keyword">function</span> <span class="token function">shoppingCart</span><span class="token punctuation">(</span>state <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token string">'New_CART_ITEM'</span><span class="token punctuation">:</span>
+          <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>state<span class="token punctuation">,</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">]</span>
+        <span class="token keyword">default</span><span class="token punctuation">:</span>
+          <span class="token keyword">return</span> state
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code>
+</pre>
+What we did was to return a new state which is a collection of the old cart items, in addition to the new one from the action. Rather than mutate the previous state, you should return a new state object, and this really helps with time travel debugging. There are things you should never do inside a reducer, and they are:
+<ul>
+<li>Mutate its arguments.</li>
+<li>Perform side effects like API calls and routing transitions.</li>
+<li>Call non-pure functions.</li>
+</ul>

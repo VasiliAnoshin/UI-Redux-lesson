@@ -67,3 +67,5 @@ What we did was to return a new state which is a collection of the old cart item
 <li>Perform side effects like API calls and routing transitions.</li>
 <li>Call non-pure functions.</li>
 </ul>
+
+hot reloading and time travel debugging : https://www.youtube.com/watch?v=xsSnOQynTHs
